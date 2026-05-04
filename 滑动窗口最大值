@@ -1,0 +1,25 @@
+class Solution {
+public:
+    vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+        //问题在于怎样判断删除一个最大值恰好又添加一个新数的最大值?
+        //其实我们只要关心删去的是否是上一个窗口的最大值就可以,用一个队列来记录最大的值,
+      //如果出现更大的值,就一直删除尾部元素,把当前值放在它该待的地方,列表存储下标,当列表最大值记录的下标小于i-k+1时,
+      //就证明删除的是最大值,给他去掉就行,其余元素删除对下一个最大值没有影响
+        deque<int> dq;
+        int m = nums.size();
+        vector<int> res;
+        for(int i = 0;i < m;i++){
+            while(!dq.empty()&& dq.front() < i-k+1){
+                dq.pop_front();
+            }
+            while(!dq.empty() && nums[i] >= nums[dq.back()]){
+                dq.pop_back();
+            }
+            dq.push_back(i);
+            if(i >= k-1){
+                res.push_back(nums[dq.front()]);
+            }
+        }
+        return res;
+    }
+};
