@@ -1,0 +1,53 @@
+class Solution {
+public:
+    void dfs(vector<vector<int>>& res,vector<int>& path,vector<int>& candidates,int start,int target){
+        //if(target < 0){  用了剪枝后就不会出现这种情况,直接省略
+            //return;
+        //}
+        if(target == 0){
+            res.push_back(path);
+            return;
+        }
+        for(int i = start;i < candidates.size();i++){
+            if(candidates[i] > target){
+                break;
+            }
+            path.push_back(candidates[i]);
+            dfs(res,path,candidates,i,target-candidates[i]);
+            path.pop_back();
+        }
+    }
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        vector<int> path;
+        vector<vector<int>> res;
+        sort(candidates.begin(),candidates.end());
+        dfs(res,path,candidates,0,target);
+        return res;
+    }
+};
+
+
+
+
+class Solution:
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        candidates.sort()
+        path = []
+        res = []
+        m = len(candidates)
+        def dfs(i,target):
+            if target == 0:
+                res.append(path[:])
+                return
+            if target < 0:
+                return
+            for j in range(i,m):
+                if candidates[j] > target:#减枝优化版
+                    break
+                path.append(candidates[j])
+                dfs(j,target-candidates[j])#因为可以重复选,下次还是j开始
+                path.pop()
+        dfs(0,target)
+        return res
+
+            
