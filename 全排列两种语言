@@ -1,0 +1,53 @@
+class Solution {
+public:
+    void dfs(vector<int>& path,vector<vector<int>>& res,vector<bool>&flag,vector<int>&nums){
+        int m = nums.size();
+        if (path.size() == m){
+            res.push_back(path);
+            return;
+        }
+        for(int i = 0;i < m;i++){
+            if (flag[i] == true){
+                continue;
+            }
+            path.push_back(nums[i]);
+            flag[i] = true;
+            dfs(path,res,flag,nums);
+            path.pop_back();
+            flag[i] = false;
+        }
+    }
+    vector<vector<int>> permute(vector<int>& nums) {
+        int m = nums.size();
+        vector<int> path;
+        vector<vector<int>> res;
+        vector<bool> flag(m,false);
+        dfs(path,res,flag,nums);
+        return res;
+    }
+};
+
+
+
+
+
+class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        m = len(nums)
+        flag = [False] * m
+        res = []
+        path = []
+        def dfs():
+            if len(path) == m:
+                res.append(path.copy())
+                return 
+            for i in range(m):
+                if flag[i] == True:
+                    continue
+                path.append(nums[i])
+                flag[i] = True
+                dfs()
+                path.pop()
+                flag[i] = False
+        dfs()
+        return res
