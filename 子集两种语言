@@ -1,0 +1,39 @@
+class Solution {
+public:
+//牛逼,就因为一开始没有写引用传递,时间直接慢了一大截,记住教训
+    void dfs(vector<int>& nums,vector<int>& path,vector<vector<int>>&res,int i,int m){
+        if(i==m){
+          res.push_back(path);
+          return;
+        }
+        dfs(nums,path,res,i+1,m);
+        path.push_back(nums[i]);
+        dfs(nums,path,res,i+1,m);
+        path.pop_back();
+    }
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<int> path;
+        vector<vector<int>> res;
+        int m = nums.size();
+        dfs(nums,path,res,0,m);
+        return res;
+    }
+};
+
+
+
+class Solution:
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        m = len(nums)
+        res = []
+        path = []
+        def dfs(i):
+            if i == m:
+                res.append(path.copy())
+                return
+            dfs(i+1)
+            path.append(nums[i])
+            dfs(i+1)
+            path.pop()
+        dfs(0)
+        return res
