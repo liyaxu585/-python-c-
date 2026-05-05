@@ -1,0 +1,41 @@
+class Solution {
+public:
+    void dfs(string& path,vector<string>& res,string& digits,vector<string>& str_map,int m,int i){
+        if(i == digits.size()){
+            res.push_back(path);
+            return;
+        }
+        for(int j = 0;j < str_map[digits[i]-'0'].size();j++){
+            path.push_back(str_map[digits[i]-'0'][j]);
+            dfs(path,res,digits,str_map,m,i+1);
+            path.pop_back();
+        }
+    }
+    vector<string> letterCombinations(string digits) {
+        string path = "";
+        vector<string> res;
+        vector<string> str_map = {"","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
+        int m = digits.size();
+        dfs(path,res,digits,str_map,m,0);
+        return res;
+    }
+};
+
+
+
+class Solution:
+    def letterCombinations(self, digits: str) -> List[str]:
+        str_map = ['','',"abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"]
+        path = []
+        res = []
+        m = len(digits)
+        def dfs(i,m):
+            if i == m:
+                res.append(''.join(path))
+                return
+            for s in str_map[int(digits[i])]:
+                path.append(s)
+                dfs(i+1,m)
+                path.pop()
+        dfs(0,m)
+        return res
