@@ -1,0 +1,16 @@
+from collections import defaultdict
+import heapq
+class Solution:
+    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        dc = defaultdict(int)
+        heap = []
+        for num in nums:
+            dc[num]+=1
+        for num,freq in dc.items():
+            if len(heap) < k:
+                heapq.heappush(heap,(freq,num))#这里要注意我们是要按照他们出现的频率来进行排序而不是数字大小
+            else:
+                if freq > heap[0][0]:
+                    heapq.heappop(heap)
+                    heapq.heappush(heap,(freq,num))
+        return [num for freq,num in heap]
