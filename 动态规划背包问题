@@ -1,0 +1,41 @@
+#include<iostream>
+using namespace std;
+int main()
+{
+	int v[] = { 5,4,2,1,7 };
+	int w[] = { 2,3,5,8,1 };
+	int c = 15;
+	int n = sizeof(w) / sizeof(w[0])-1;
+	int** dp = new int* [n+1]();
+	for (int i = 1; i < n+1; i++)
+	{
+		dp[i] = new int[c + 1]();
+	}
+	for (int j = 1; j <= c; j++)
+	{
+		if (w[n] > j)//第n个物品的重量大于背包剩余容量
+		{
+			dp[n][j] = 0;
+		}
+		else
+		{
+			dp[n][j] = v[n];//第n个物品的重量小于等于背包的剩余容量
+		}
+	}
+	for (int i = n - 1; i >= 0; i--)
+	{
+		for (int j = 1; j <= c; ++j)
+		{
+			if (w[i] > j)//装不进背包
+			{
+				dp[i][j] = dp[i + 1][j];
+			}
+			else
+			{
+				dp[i][j] = max(dp[i + 1][j], dp[i + 1][j - w[i]] + v[i]);
+			}
+		}
+	}
+	cout << dp[n][c] << endl;
+	return 0;
+}
