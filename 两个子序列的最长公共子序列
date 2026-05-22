@@ -1,0 +1,91 @@
+#include<iostream>
+#include<algorithm>
+#include<vector>
+//两个字符串最长公共子序列
+using namespace std;
+int publicStr(int& cnt, string& s1, int i, string& s2, int j, int** dp, int** path)
+{
+	cnt++;
+	if (i < 0 || j < 0)
+	{
+		return 0;
+	}
+	if (dp[i][j] >= 0)//表示已经处理过了
+	{
+		return dp[i][j];
+	}
+	if (s1[i] == s2[j])
+	{
+		dp[i][j] = publicStr(cnt, s1, i - 1, s2, j - 1, dp, path) + 1;
+		path[i][j] = 1;//表示往对角线走了
+		return dp[i][j];
+	}
+	else
+	{
+		/*dp[i][j] = max(publicStr(cnt, s1, i - 1, s2, j, dp), publicStr(cnt, s1, i, s2, j - 1, dp));
+		return dp[i][j];*/
+		int len1 = publicStr(cnt, s1, i - 1, s2, j, dp, path);
+		int len2 = publicStr(cnt, s1, i, s2, j - 1, dp, path);
+		if (len1 >= len2)
+		{
+			dp[i][j] = len1;
+			path[i][j] = 3;//表示往上面走了
+		}
+		else
+		{
+			dp[i][j] = len2;
+			path[i][j] = 2;//往左边走了
+		}
+		return dp[i][j];
+	}
+}
+int main()
+{
+	int cnt = 0;//传统方法195405次,太拉了   ,改成dp之后变成205次,时间翻了几百倍
+	string s1 = "helloworldwangr";
+	string s2 = "wangjdv";
+	int m = s1.size();
+	int n = s2.size();
+	int** dp = new int* [m]();
+	int** path = new int* [m]();//记录最长子序列,记录最长序列是怎么走的
+	for (int i = 0; i < m; i++)
+	{
+		dp[i] = new int[n]();
+		path[i] = new int[n]();
+		for (int j = 0; j < n; j++)
+		{
+			dp[i][j] = -1;
+		}
+	}
+	int size_ = publicStr(cnt, s1, m - 1, s2, n - 1, dp, path);
+	cout << cnt << endl;
+	cout << size_ << endl;
+
+	int i = m - 1;
+	int j = n - 1;
+
+	string result = "";
+
+	while (i >= 0 && j >= 0)
+	{
+		if (path[i][j] == 1)
+		{
+			result += s1[i];
+			i--;
+			j--;
+		}
+		else if (path[i][j] == 2)
+		{
+			j--;
+		}
+		else
+		{
+			i--;
+		}
+	}
+
+	reverse(result.begin(), result.end());
+
+	cout << result << endl;
+	return 0;
+}
