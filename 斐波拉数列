@@ -1,0 +1,38 @@
+#include<iostream>
+using namespace std;
+/*int fabnacci(int n)
+{
+	if (n == 1 || n == 2)
+	{
+		return 1;
+	}
+	else
+	{
+		return fabnacci(n - 1) + fabnacci(n - 2);
+	}
+}*/
+int fabnacci(int n, int* dp)
+{
+	if (dp[n] > 0)
+	{
+		return dp[n];
+	}
+	if (n == 1 || n == 2)
+	{
+		dp[n] = 1;
+		return 1;
+	}
+	else
+	{
+		dp[n] = fabnacci(n - 1, dp) + fabnacci(n - 2, dp);
+		return dp[n];
+	}
+}
+int main()
+{
+	int n = 40;
+	int* dp = new int[n + 1]();
+	int val = fabnacci(n,dp);
+	cout << val << endl;
+	return 0;
+}
