@@ -1,0 +1,31 @@
+#include<iostream>
+using namespace std;
+int idx = 0;
+int N,M;
+void h(int n,char a,char b,char c)
+{
+	//先把上面的东西移到b盘,再把最底下的移到c盘,再把b盘移到c盘 
+	if(n == 1)
+	{
+		idx++;
+		if(idx == M)
+		{
+			cout << "#" << M  << ": " << a << "->" << c << endl;
+		}
+		return;
+	}
+	h(n-1,a,c,b);
+	idx++;
+	if(idx == M)
+	{
+		cout << "#" << M << ": " << a << "->" << c << endl;
+	}
+	h(n-1,b,a,c);
+}
+int main()
+{
+	cin >> N >> M; 
+	h(n,'A','B','C');
+	cout << idx << endl;
+	return 0;
+} 
