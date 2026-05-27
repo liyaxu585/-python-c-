@@ -1,0 +1,20 @@
+#include<iostream>
+using namespace std;
+const int MOD = 1e9 + 7;
+int main()
+{
+	int N;
+	cin >> N;N--;
+    long long res = 1;
+    long long s = 1; 
+	for(int i = 2;i <= N;i++)
+	{
+		s = s + 1ll * i * i % MOD;
+		s % MOD; 
+		res = res + 1ll * i * (i+1) / 2 % MOD * (2*i+1) % MOD-2 * s % MOD;
+		res % MOD;
+	}	
+	res = (res + MOD) % MOD;
+	cout << res << endl;
+	return 0;
+} 
