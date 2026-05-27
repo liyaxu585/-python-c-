@@ -1,0 +1,32 @@
+#include<iostream>
+using namespace std;
+int main()
+{
+	int days[] = {31,28,31,30,31,30,31,31,30,31,30,31};
+	int ans = 0;
+	int week = 6;
+	for(int y = 2022;y <= 2022;y++)
+	{
+		for(int i = 1;i <= 12;i++)
+		{
+			int D = days[i - 1];
+			if(i == 2)
+			{
+				if((y % 4 == 0 && y % 100 != 0) || y % 400 == 0)
+				{
+					D++;
+				}
+			}
+			for(int j = 1;j <= D;j++)
+			{
+				if(j % 10 == 1 || week == 6 || week == 0)
+				{
+					ans++;
+				}
+				week = (week + 1) % 7;
+			}
+		}
+	}
+	cout << ans << endl;
+	return 0;
+}
