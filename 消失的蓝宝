@@ -1,0 +1,15 @@
+#include<iostream>
+using namespace std;
+int main()
+{
+	long long N = 20240413*2 - 20250412;
+	for(; ;N += 20240413)
+	{
+		if((N+20240413) % 20250412 == 0)
+		{
+			cout << N << endl;
+			break;
+		}
+	}
+	return 0; 
+ } 
